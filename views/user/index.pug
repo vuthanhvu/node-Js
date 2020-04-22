@@ -1,4 +1,8 @@
 h1 User
+a(href="/user/creat") New name
+form(action="/user/search" method="GET")
+    input(type="text" name = "q")
+    button Search
 ul
     each val in users
      li= val.name
