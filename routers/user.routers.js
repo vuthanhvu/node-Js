@@ -21,14 +21,35 @@ router.get('/search', function(req, res) {
         users: matchUsers
     });
 });
+
 router.get('/creat', function(req, res) {
     res.render('user/creat');
 });
+
 router.post('/creat', function(req, res) {
     req.body.id = shortid.generate();
+
+    var errors = [];
+    if(!req.body.name) {
+        errors.push('Name is require');
+    }
+
+    if(!req.body.phone) {
+        errors.push('Phone is require');
+    }
+
+    if(errors.length) {
+        res.render('user/creat', {
+            errors: errors,
+            values: req.body
+        });
+        
+        return;
+    }
+
     db.get('users').push(req.body).write();
     res.redirect('/user');
-})
+});
 
 router.get('/view', function(req, res) {
     res.render('user/view');
